@@ -1,11 +1,16 @@
 import express, { Request, Response } from 'express'
 require('dotenv').config();
 
-const app = express();
+import calculatorRoute from './calculator/calculator.route'
 
-app.use('/', (req:Request, res: Response)=>{
+const app = express();
+app.use(express.json());
+
+app.get('/', (req:Request, res: Response)=>{
  res.status(200).json({ "slackUsername": "Badiru", "backend": true, "age": 23, "bio": "A passionate software engineer. Here to learn and relearn" });
 })
+
+app.use('/', calculatorRoute);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, ()=>{
