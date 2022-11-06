@@ -1,40 +1,44 @@
 import { Request, Response } from "express";
+import { getOperationType, operationType } from "./calculator.helper";
 
-enum operation {
-  SUBTRACTION = "subtraction",
-  ADDITION = "addition",
-  MULTIPLICATION = "multiplication",
-}
+
 
 export async function calculatorController(req: Request, res: Response) {
-  const { operation_type, x, y } = req.body;
+  const operation_type:string = req.body.operation_type;
+  const x:number = parseInt(req.body.x);
+  const y:number = parseInt(req.body.y);
+  
+  const operation = getOperationType(operation_type.toLocaleLowerCase());
+  
 
-  switch (operation_type.toLowerCase()) {
-    case operation.ADDITION:
+  switch (operation) {
+    case operationType.ADDITION:
       return res
         .status(200)
         .json({
-          slackUsername: "Badiru",
-          result: x + y,
-          operation_type: operation.ADDITION,
+          "slackUsername": "Badiru",
+          "result": x + y,
+          "operation_type": operationType.ADDITION,
         });
-    case operation.SUBTRACTION:
+    case operationType.SUBTRACTION:
       return res
         .status(200)
         .json({
-          slackUsername: "Badiru",
-          result: x - y,
-          operation_type: operation.SUBTRACTION,
+          "slackUsername": "Badiru",
+          "result": x - y,
+          "operation_type": operationType.SUBTRACTION,
         });
-    case operation.MULTIPLICATION:
+    case operationType.MULTIPLICATION:
       return res
         .status(200)
         .json({
-          slackUsername: "Badiru",
-          result: x * y,
-          operation_type: operation.MULTIPLICATION,
+          "slackUsername": "Badiru",
+          "result": x * y,
+          "operation_type": operationType.MULTIPLICATION,
         });
     default:
-      return res.sendStatus(403);
+      return res
+      .sendStatus(400)
+
   }
 }
